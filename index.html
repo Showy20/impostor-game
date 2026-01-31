@@ -3,142 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🕵️ El Impostor - Juego de Party</title>
+    <title>El Impostor</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
+    <div class="app">
         <header class="header">
-            <h1>🕵️ El Impostor</h1>
-            <p class="subtitle">¡Adivina quién es el infiltrado!</p>
+            <h1>Impostor</h1>
         </header>
 
-        <!-- Setup Screen -->
-        <div id="setup-screen" class="screen active">
-            <div class="card">
-                <h2>⚙️ Configuración del Juego</h2>
-
-                <div class="form-group">
-                    <label>Número de Impostores</label>
-                    <div class="counter">
-                        <button class="counter-btn" onclick="changeImpostors(-1)">−</button>
-                        <span id="impostor-count">1</span>
-                        <button class="counter-btn" onclick="changeImpostors(1)">+</button>
+        <main class="main">
+            <!-- Setup Screen -->
+            <section id="setup-screen" class="screen active">
+                <div class="content">
+                    <div class="setup-section">
+                        <h2>Jugadores</h2>
+                        <div id="players-list" class="players-list"></div>
+                        <button class="btn-outline" onclick="addPlayer()">+ Agregar</button>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label>Jugadores (mínimo 3)</label>
-                    <div id="players-list"></div>
-                    <button class="btn-secondary" onclick="addPlayer()">+ Agregar Jugador</button>
-                </div>
-
-                <div class="form-group">
-                    <label>Categoría de Palabras</label>
-                    <select id="word-category">
-                        <option value="random">🎲 Aleatorio</option>
-                        <option value="absurd">🤪 Situaciones Absurdas</option>
-                        <option value="animals">🐾 Animales Graciosos</option>
-                        <option value="activities">🎭 Actividades Divertidas</option>
-                        <option value="objects">🎁 Objetos Inusuales</option>
-                        <option value="celebrity">⭐ Famosos y Personajes</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>⏱️ Tiempo de Discusión (segundos)</label>
-                    <input type="number" id="discussion-time" value="60" min="30" max="300" step="30">
-                </div>
-
-                <button class="btn-primary" onclick="startGame()">🚀 Comenzar Juego</button>
-            </div>
-        </div>
-
-        <!-- Pass Device Screen -->
-        <div id="pass-screen" class="screen">
-            <div class="card">
-                <div class="pass-icon">📱</div>
-                <h2>Pasa el dispositivo</h2>
-                <p class="player-turn">Es el turno de:</p>
-                <p class="current-player" id="pass-player-name">Jugador</p>
-                <button class="btn-primary" onclick="showWord()">👆 Ver mi Palabra</button>
-            </div>
-        </div>
-
-        <!-- Word Reveal Screen -->
-        <div id="word-screen" class="screen">
-            <div class="card">
-                <h2>Tu palabra es:</h2>
-
-                <div class="word-container" id="word-container">
-                    <div class="word-hidden" id="word-hidden">
-                        <div class="blur-overlay">
-                            <span class="tap-hint">👆 Desliza o mantén presionado</span>
+                    <div class="setup-section">
+                        <h2>Impostores</h2>
+                        <div class="counter">
+                            <button class="counter-btn" onclick="changeImpostors(-1)">−</button>
+                            <span id="impostor-count">1</span>
+                            <button class="counter-btn" onclick="changeImpostors(1)">+</button>
                         </div>
-                        <div class="secret-word" id="secret-word">????</div>
                     </div>
-                </div>
 
-                <div id="impostor-badge" class="impostor-badge hidden">
-                    <span class="impostor-icon">🎭</span>
-                    <span class="impostor-text">¡ERES EL IMPOSTOR!</span>
-                </div>
-
-                <div class="word-actions">
-                    <button class="btn-secondary" onclick="confirmWord()">✅ Confirmar y Pasar</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Discussion Screen -->
-        <div id="discussion-screen" class="screen">
-            <div class="card">
-                <h2>⏱️ Tiempo de Discusión</h2>
-                <p class="discussion-word">La palabra es: <strong id="discussion-word-display">???</strong></p>
-
-                <div class="timer-display">
-                    <div class="timer-circle">
-                        <span id="timer">60</span>
+                    <div class="setup-section">
+                        <h2>Categoría</h2>
+                        <select id="word-category" class="select">
+                            <option value="random">Aleatorio</option>
+                            <option value="people">Personajes</option>
+                            <option value="animals">Animales</option>
+                            <option value="objects">Objetos</option>
+                            <option value="food">Comida</option>
+                            <option value="places">Lugares</option>
+                            <option value="actions">Acciones</option>
+                            <option value="party">Fiesta</option>
+                            <option value="spicy">Picante 🌶️</option>
+                        </select>
                     </div>
+
+                    <div class="setup-section">
+                        <h2>Tiempo</h2>
+                        <div class="time-options">
+                            <button class="time-btn" data-time="60" onclick="setTime(60)">1 min</button>
+                            <button class="time-btn" data-time="120" onclick="setTime(120)">2 min</button>
+                            <button class="time-btn" data-time="180" onclick="setTime(180)">3 min</button>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="startGame()">Comenzar</button>
                 </div>
+            </section>
 
-                <div class="timer-controls">
-                    <button class="btn-small" onclick="toggleTimer()" id="timer-toggle">⏸️ Pausar</button>
-                    <button class="btn-small" onclick="addTime(30)">➕ 30s</button>
-                    <button class="btn-small btn-danger" onclick="skipTimer()">⏭️ Saltar</button>
+            <!-- Pass Screen -->
+            <section id="pass-screen" class="screen">
+                <div class="content">
+                    <div class="pass-info">
+                        <p class="pass-label">Turno de</p>
+                        <h2 id="pass-player-name">Jugador</h2>
+                    </div>
+                    <button class="btn-primary" onclick="showWord()">Ver palabra</button>
                 </div>
+            </section>
 
-                <div class="vote-section">
-                    <h3>🗳️ Votación</h3>
-                    <p>¿Quién creen que es el impostor?</p>
-                    <div id="vote-list" class="vote-list"></div>
+            <!-- Word Screen -->
+            <section id="word-screen" class="screen">
+                <div class="content">
+                    <p class="word-label">Mantén para ver</p>
+
+                    <div class="word-card" id="word-card">
+                        <div class="word-blur" id="word-blur">
+                            <span class="word-text" id="word-text">••••</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" onclick="confirmAndPass()">Continuar</button>
                 </div>
+            </section>
 
-                <button class="btn-primary" onclick="showResults()">🏆 Ver Resultados</button>
-            </div>
-        </div>
+            <!-- Discussion Screen -->
+            <section id="discussion-screen" class="screen">
+                <div class="content">
+                    <div class="timer-section">
+                        <p class="discussion-label">La palabra es</p>
+                        <h2 id="discussion-word" class="discussion-word">Palabra</h2>
 
-        <!-- Results Screen -->
-        <div id="results-screen" class="screen">
-            <div class="card">
-                <h2 id="result-title">🎉 Resultados</h2>
+                        <div class="timer">
+                            <span id="timer">60</span>
+                        </div>
 
-                <div class="results-content">
-                    <h3>La palabra era:</h3>
-                    <p class="result-word" id="result-word">???</p>
+                        <div class="timer-controls">
+                            <button class="icon-btn" onclick="toggleTimer()" id="timer-toggle">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="6" y="4" width="4" height="16"></rect>
+                                    <rect x="14" y="4" width="4" height="16"></rect>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" onclick="addTime(30)">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" onclick="skipTimer()">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                                    <line x1="19" y1="5" x2="19" y2="19"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="vote-section">
+                        <h3>Votación</h3>
+                        <div id="vote-list" class="vote-list"></div>
+                    </div>
+
+                    <button class="btn-primary" onclick="showResults()">Resultados</button>
                 </div>
+            </section>
 
-                <div class="impostors-revealed" id="impostors-revealed">
-                    <h3>🎭 Los Impostores eran:</h3>
-                    <div id="impostors-list" class="impostors-list"></div>
+            <!-- Results Screen -->
+            <section id="results-screen" class="screen">
+                <div class="content">
+                    <h2 id="result-title" class="result-title">Resultados</h2>
+
+                    <div class="result-card">
+                        <p class="result-label">La palabra era</p>
+                        <h3 id="result-word" class="result-word">Palabra</h3>
+                    </div>
+
+                    <div class="impostors-section" id="impostors-section">
+                        <p class="result-label">Los impostores</p>
+                        <div id="impostors-list" class="impostors-list"></div>
+                    </div>
+
+                    <p id="winner-text" class="winner-text"></p>
+
+                    <button class="btn-primary" onclick="resetGame()">Jugar otra vez</button>
                 </div>
-
-                <div class="winners-announcement" id="winners-announcement"></div>
-
-                <button class="btn-primary" onclick="resetGame()">🔄 Jugar de Nuevo</button>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
 
     <script src="script.js"></script>

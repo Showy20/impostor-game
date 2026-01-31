@@ -1,138 +1,65 @@
-// ========== GAME STATE ==========
-const gameState = {
+// Word database - single words only
+const words = {
+    people: ['Abogado', 'Actor', 'Astronauta', 'Bombero', 'Cantante', 'Carpintero', 'Chef', 'Chico', 'Chica', 'Científico', 'Constructor', 'Crimen', 'Doctor', 'Enfermera', 'Escritor', 'Espía', 'Ex', 'Famoso', 'Fotógrafo', 'Gamer', 'Gemelo', 'Gerente', ' Guerrero', 'Hacker', 'Héroe', 'Influencer', 'Ladrón', 'Maestro', 'Mecánico', 'Millonario', 'Mimo', 'Modelo', 'Músico', 'Ninja', 'Pirata', 'Político', 'Príncipe', 'Profesor', 'Programador', 'Rey', 'Robot', 'Sacerdote', 'Soldado', 'Tatuador', 'Vampiro', 'Vecino', 'Youtuber', 'Zombie'],
+
+    animals: ['Araña', 'Búho', 'Ballena', 'Canguro', 'Cerdo', 'Cocodrilo', 'Elefante', 'Escorpión', 'Foca', 'Gato', 'Gorila', 'Hámster', 'Hipopótamo', 'Jirafa', 'León', 'Lobo', 'Mariposa', 'Mono', 'Mosquito', 'Murciélago', 'Oso', 'Pájaro', 'Panda', 'Perro', 'Pingüino', 'Pollo', 'Pulpo', 'Rata', 'Rinoceronte', 'Serpiente', 'Tiburon', 'Tigre', 'Tortuga', 'Vaca', 'Zorro'],
+
+    objects: ['Anillo', 'Auto', 'Avión', 'Balón', 'Bicicleta', 'Bota', 'Cama', 'Cámara', 'Casco', 'Cepillo', 'Chupete', 'Cuchara', 'Cuchillo', 'Dinero', 'Espejo', 'Gafas', 'Guitarra', 'Huevo', 'Joya', 'Lápiz', 'Llave', 'Máscara', 'Microfono', 'Mochila', 'Moneda', 'Oro', 'Perfume', 'Pistola', 'Reloj', 'Silla', 'Sofá', 'Telefono', 'Tenedor', 'Tiara', 'Timón', 'Tocado', 'Zapato'],
+
+    food: ['Agua', 'Alcohol', 'Arroz', 'Asado', 'Avena', 'Azeituna', 'Café', 'Cerveza', 'Chicle', 'Chicle', 'Choco', 'Chorizo', 'Coca', 'Cordero', 'Cucharra', 'Cuchillo', 'Donas', 'Durazno', 'Empanada', 'Ensalada', 'Fresa', 'Hamburguesa', 'Helado', 'Huevo', 'Jamón', 'Jugo', 'Leche', 'Limonada', 'Lomo', 'Mango', 'Manzana', 'Masa', 'Mayonesa', 'Miel', 'Milkshake', 'Mousse', 'Muffin', 'Naranja', 'Panceta', 'Papas', 'Pasta', 'Pastel', 'Pera', 'Pescado', 'Picante', 'Pizza', 'Pollo', 'Queso', 'Salsa', 'Sándwich', 'Taco', 'Té', 'Torta', 'Tostada', 'Uva', 'Vino', 'Yogur', 'Zanahoria'],
+
+    places: ['Aeropuerto', 'Alcoba', 'Banco', 'Bar', 'Baño', 'Biblioteca', 'Cabaña', 'Cafetería', 'Calle', 'Camping', 'Casa', 'Castillo', 'Catedral', 'Cementerio', 'Cine', 'Circo', 'Club', 'Colegio', 'Cueva', 'Discoteca', 'Escuela', 'Estadio', 'Fábrica', 'Gimnasio', 'Hospital', 'Hotel', 'Iglesia', 'Isla', 'Jardín', 'Laboratorio', 'Luna', 'Mercado', 'Museo', 'Oficina', 'Parque', 'Piscina', 'Playa', 'Prisión', 'Restaurante', 'Rio', 'Supermercado', 'Teatro', 'Tienda', 'Torre', 'Zoológico'],
+
+    actions: ['Abrazar', 'Aplaudir', 'Arañar', 'Arreglar', 'Asustar', 'Atrapar', 'Bailar', 'Bañar', 'Besarse', 'Besar', 'Bromear', 'Buscar', 'Caminar', 'Cantar', 'Cocinar', 'Correr', 'Chillar', 'Comer', 'Conducir', 'Dormir', 'Empujar', 'Enamorar', 'Esconder', 'Escribir', 'Escuchar', 'Estar', 'Gritar', 'Golpear', 'Jugar', 'Llorar', 'Luchar', 'Matar', 'Nadar', 'Oír', 'Pintar', 'Reír', 'Saltar', 'Silbar', 'Soñar', 'Tocar', 'Toser', 'Volar', 'Vomitar'],
+
+    party: ['Amigo', 'Amor', 'Boda', 'Brindis', 'Bebible', 'Chiste', 'Copas', 'Cita', 'Despedida', 'Divorcio', 'Enamorados', 'Ex', 'Fiesta', 'Flirteo', 'Graduación', 'Invitado', 'Luna', 'Mezcal', 'Noche', 'Pareja', 'Pasión', 'Regalo', 'Risa', 'Romance', 'Ron', 'Sexo', 'Soltería', 'Tequila', 'Tía', 'Venganza', 'Vino'],
+
+    spicy: ['Amante', 'Atrás', 'Beso', 'Cama', 'Chochete', 'Cintura', 'Consolador', 'Culo', 'Desnudo', 'Enamide', 'Entrepierna', 'Erotismo', 'Fantasía', 'Fetiche', 'Hazmerreír', 'Hot', 'Intimidad', 'Lencería', 'Libido', 'Lujuria', 'Masaje', 'Masturbación', 'Milf', 'Morbo', 'Nalgas', 'Ninfómana', 'Nocturnidad', 'Orgasmo', 'Pasión', 'Pechotes', 'Pechuga', 'Pene', 'Pijama', 'Placer', 'Porno', 'Posición', 'Profanidad', 'Provocativo', 'Pulsión', 'Puta', 'Sado', 'Seductora', 'Semen', 'Sensual', 'Sexo', 'Sexting', 'Sfoglio', 'Sofá', 'Solitario', 'Striptease', 'Sucio', 'Tabú', 'Tacones', 'Tetas', 'Tirante', 'Toque', 'Trío', 'Vajilla', 'Vibrador', 'Vicios', 'Voluptuosidad']
+};
+
+// Game state
+const state = {
     players: [],
-    impostorCount: 1,
-    currentPlayerIndex: 0,
+    impostors: 0,
     currentWord: '',
-    impostors: [],
-    votes: {},
-    discussionTime: 60,
-    timerInterval: null,
-    timeRemaining: 60,
+    impostorIndices: [],
+    currentPlayer: 0,
+    time: 60,
+    timer: null,
+    remaining: 60,
     category: 'random',
-    wordRevealed: false
+    votes: {}
 };
 
-// ========== FUN WORD DATABASE ==========
-const wordDatabase = {
-    absurd: [
-        "Bailar macarena en una boda",
-        "Asecharse a alguien en el baño",
-        "Intentar ligar con una escoba",
-        "Hacerse el rico en el OXXO",
-        "Hablar solo en el transporte público",
-        "Tiktokear de incógnito",
-        "Hacer dawaii como extraterrestre",
-        "Intentar sacar un selfie con un perro ajeno",
-        "Salir con 10 peluques sin motivo",
-        "Usar calcetines con sandalias",
-        "Hacer drama por un comentario en Facebook",
-        "Decir 'yo sí soy tu padre' a un niño",
-        "Fingir entender de política",
-        "Publicar foto de comida en Instagram",
-        "Intentar hacerse viral por cualquier cosa",
-        "Dormir con un peluche a los 30 años",
-        "Llorar con comerciales de televisión",
-        "Hacerse el difícil en el cine",
-        "Reirse de sus propios chistes malos",
-        "Comprar cosas por Temu que nunca llegarán"
-    ],
-    animals: [
-        "Un perro que cree que es gato",
-        "Un gato que odia las cajas",
-        "Un loro que solo dice groserías",
-        "Un pez con miedo al agua",
-        "Un pájaro que no sabe volar",
-        "Un conejo que parece山寨",
-        "Un mapache ladron",
-        "Un hipopótamo bailarín",
-        "Un pulpo depresivo",
-        "Un pingüino con calor",
-        "Un loro chismoso",
-        "Un gato influencer",
-        "Un perro gamer",
-        "Un hamster empresario",
-        "Un conejo conductor",
-        "Una tortuga velocista"
-    ],
-    activities: [
-        "Hacer un unboxing inútil",
-        "Livestreamear durmiendo",
-        "Intentar una dieta keto",
-        "Ser coach de vida sin vida",
-        "Vender cursos de cómo ser rico",
-        "Ser influencer de refrigeradores",
-        "Hacer directo todos los días",
-        "Criticar restaurantes de McDonald's",
-        "Hacer talleres de éxito en TikTok",
-        "Ser experto en crypto sin crypto",
-        "Dar consejos de amor soltero",
-        "Ser crítico de cine sin ver pelis",
-        "Vender suplementos milagrosos",
-        "Consultor espiritual de Instagram",
-        "Fitness coach sin gym"
-    ],
-    objects: [
-        "Una silla que no se puede sentar",
-        "Un tenedor que pincha mal",
-        "Una taza que se cae sola",
-        "Un teléfono que solo suena a horas malas",
-        "Un reloj que atrasa cuando tienes prisa",
-        "Un paraguas que atrae lluvia",
-        "Una almohada incómoda",
-        "Un cepillo de dientes eléctrico que se apaga",
-        "Una bicicleta sin cadena",
-        "Un control remoto sin pilas",
-        "Una cuchara sopera que es plana",
-        "Un espejo que no refleja bien",
-        "Una sábana siempre arrugada",
-        "Un cargador que carga lento"
-    ],
-    celebrity: [
-        "Un youtuber que promete premios mentira",
-        "Un streamer que se enoja por todo",
-        "Un político que no sabe leer",
-        "Un actor que solo hace remakes",
-        "Un cantante que usa autotune excesivo",
-        "Un influencer que compra seguidores",
-        "Un empresario que 'inventó' todo",
-        "Una celebridad que es famosa por ser famosa",
-        "Un conductor de reality show",
-        "Un comentarista de fútbol apasionado",
-        "Un coach de viajes de lujo",
-        "Un experto en bitcoin que perdió todo"
-    ]
-};
-
-// ========== PLAYER MANAGEMENT ==========
-let playerCount = 0;
-
-function initPlayers() {
-    // Start with 3 default players
+// Initialize
+function init() {
+    // Add default players
     for (let i = 1; i <= 3; i++) {
         addPlayerInput(`Jugador ${i}`);
     }
+    setTime(60);
 }
 
+// Player management
 function addPlayerInput(name = '') {
-    const playersList = document.getElementById('players-list');
-    const playerDiv = document.createElement('div');
-    playerDiv.className = 'player-input';
-    playerDiv.innerHTML = `
-        <input type="text" placeholder="Nombre del jugador" value="${name}" onchange="updatePlayers()">
+    const list = document.getElementById('players-list');
+    const div = document.createElement('div');
+    div.className = 'player-input';
+    div.innerHTML = `
+        <input type="text" placeholder="Nombre" value="${name}">
         <button onclick="removePlayer(this)">×</button>
     `;
-    playersList.appendChild(playerDiv);
-    playerCount++;
+    div.querySelector('input').addEventListener('input', updatePlayers);
+    list.appendChild(div);
 }
 
-function removePlayer(button) {
-    const playersList = document.getElementById('players-list');
-    if (playersList.children.length > 3) {
-        button.parentElement.remove();
+function removePlayer(btn) {
+    const list = document.getElementById('players-list');
+    if (list.children.length > 3) {
+        btn.parentElement.remove();
         updatePlayers();
     } else {
-        showToast("Mínimo 3 jugadores", "warning");
+        toast('Mínimo 3 jugadores');
     }
 }
 
@@ -141,184 +68,176 @@ function addPlayer() {
 }
 
 function updatePlayers() {
-    const inputs = document.querySelectorAll('#players-list input');
-    gameState.players = Array.from(inputs)
-        .map(input => input.value.trim())
-        .filter(name => name.length > 0);
+    state.players = Array.from(document.querySelectorAll('#players-list input'))
+        .map(i => i.value.trim())
+        .filter(n => n);
 }
 
-// ========== GAME SETUP ==========
+// Settings
 function changeImpostors(delta) {
-    const countEl = document.getElementById('impostor-count');
-    let newCount = parseInt(countEl.textContent) + delta;
-    const playerCount = document.querySelectorAll('#players-list input').length;
-
-    if (newCount < 1) newCount = 1;
-    if (newCount >= playerCount) newCount = playerCount - 1;
-
-    countEl.textContent = newCount;
-    gameState.impostorCount = newCount;
+    const el = document.getElementById('impostor-count');
+    let n = parseInt(el.textContent) + delta;
+    const max = state.players.length || 3;
+    if (n < 1) n = 1;
+    if (n >= max) n = max - 1;
+    el.textContent = n;
+    state.impostors = n;
 }
 
+function setTime(seconds) {
+    state.time = seconds;
+    state.remaining = seconds;
+    document.querySelectorAll('.time-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.time) === seconds);
+    });
+}
+
+// Start game
 function startGame() {
     updatePlayers();
 
-    // Validate
-    if (gameState.players.length < 3) {
-        showToast("Mínimo 3 jugadores", "error");
+    if (state.players.length < 3) {
+        toast('Mínimo 3 jugadores');
         return;
     }
 
-    if (gameState.impostorCount >= gameState.players.length) {
-        showToast("Debe haber al menos 1 jugador no impostor", "error");
+    state.impostors = parseInt(document.getElementById('impostor-count').textContent);
+    if (state.impostors >= state.players.length) {
+        toast('Debe haber al menos 1 no impostor');
         return;
     }
-
-    // Get settings
-    gameState.category = document.getElementById('word-category').value;
-    gameState.discussionTime = parseInt(document.getElementById('discussion-time').value) || 60;
-    gameState.timeRemaining = gameState.discussionTime;
 
     // Select word
-    gameState.currentWord = selectWord();
+    state.category = document.getElementById('word-category').value;
+    state.currentWord = selectWord();
 
     // Assign impostors
-    assignImpostors();
+    const indices = [...Array(state.players.length).keys()];
+    state.impostorIndices = shuffle(indices).slice(0, state.impostors);
 
-    // Start game
-    gameState.currentPlayerIndex = 0;
+    state.currentPlayer = 0;
     showScreen('pass-screen');
     updatePassScreen();
 }
 
 function selectWord() {
-    const category = gameState.category === 'random'
-        ? Object.keys(wordDatabase)[Math.floor(Math.random() * Object.keys(wordDatabase).length)]
-        : gameState.category;
-
-    const words = wordDatabase[category];
-    return words[Math.floor(Math.random() * words.length)];
+    const cat = state.category === 'random'
+        ? Object.keys(words)[Math.floor(Math.random() * Object.keys(words).length)]
+        : state.category;
+    const list = words[cat];
+    return list[Math.floor(Math.random() * list.length)];
 }
 
-function assignImpostors() {
-    const shuffled = [...gameState.players].sort(() => Math.random() - 0.5);
-    gameState.impostors = shuffled.slice(0, gameState.impostorCount);
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
 }
 
-// ========== SCREEN NAVIGATION ==========
-function showScreen(screenId) {
+// Screens
+function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
+    document.getElementById(id).classList.add('active');
 }
 
 function updatePassScreen() {
-    const playerName = gameState.players[gameState.currentPlayerIndex];
-    document.getElementById('pass-player-name').textContent = playerName;
+    document.getElementById('pass-player-name').textContent = state.players[state.currentPlayer];
 }
 
-// ========== WORD REVEAL ==========
+// Word reveal
+let wordRevealTimeout = null;
+let isWordRevealed = false;
+
 function showWord() {
-    const playerName = gameState.players[gameState.currentPlayerIndex];
-    const isImpostor = gameState.impostors.includes(playerName);
+    const isImpostor = state.impostorIndices.includes(state.currentPlayer);
+    const wordText = document.getElementById('word-text');
+    const wordBlur = document.getElementById('word-blur');
 
     // Set word
-    const wordDisplay = document.getElementById('secret-word');
-    wordDisplay.textContent = isImpostor ? "🎭 IMPOSTOR 🎭" : gameState.currentWord;
+    wordText.textContent = isImpostor ? 'IMPOSTOR' : state.currentWord;
 
     // Set style
-    const wordContainer = document.querySelector('.word-hidden');
-    wordContainer.classList.remove('revealed', 'impostor-word');
-
+    wordBlur.classList.remove('revealed', 'impostor');
     if (isImpostor) {
-        wordContainer.classList.add('impostor-word');
-        document.getElementById('impostor-badge').classList.remove('hidden');
-    } else {
-        wordContainer.classList.add('revealed');
-        document.getElementById('impostor-badge').classList.add('hidden');
+        wordBlur.classList.add('impostor');
     }
 
-    // Reset reveal state
-    gameState.wordRevealed = false;
-    document.getElementById('word-hidden').querySelector('.blur-overlay').classList.remove('hidden');
+    // Reset state
+    isWordRevealed = false;
+    wordBlur.classList.remove('revealed');
 
     showScreen('word-screen');
-    setupWordReveal();
+    setupWordInteractions();
 }
 
-function setupWordReveal() {
-    const wordContainer = document.getElementById('word-hidden');
-    const blurOverlay = wordContainer.querySelector('.blur-overlay');
-    let revealTimeout;
-    let isPressed = false;
+function setupWordInteractions() {
+    const wordBlur = document.getElementById('word-blur');
 
-    // Desktop: click and hold
-    wordContainer.addEventListener('mousedown', startReveal);
-    wordContainer.addEventListener('mouseup', endReveal);
-    wordContainer.addEventListener('mouseleave', endReveal);
+    // Clean up previous listeners
+    const newWordBlur = wordBlur.cloneNode(true);
+    wordBlur.parentNode.replaceChild(newWordBlur, wordBlur);
 
-    // Touch: hold
-    wordContainer.addEventListener('touchstart', (e) => {
+    const el = document.getElementById('word-blur');
+
+    // Desktop
+    el.addEventListener('mousedown', startReveal);
+    el.addEventListener('mouseup', endReveal);
+    el.addEventListener('mouseleave', endReveal);
+
+    // Touch
+    el.addEventListener('touchstart', (e) => {
         e.preventDefault();
         startReveal();
     });
-    wordContainer.addEventListener('touchend', endReveal);
+    el.addEventListener('touchend', endReveal);
 
-    // Touch: swipe
-    let touchStartY = 0;
-    wordContainer.addEventListener('touchstart', (e) => {
-        touchStartY = e.touches[0].clientY;
-    });
-
-    wordContainer.addEventListener('touchmove', (e) => {
-        const touchY = e.touches[0].clientY;
-        const diff = touchStartY - touchY;
-
-        if (diff > 50) { // Swipe up
-            revealWord();
-        }
-    });
+    // Click to toggle
+    el.addEventListener('click', toggleReveal);
 
     function startReveal() {
-        if (!isPressed) {
-            isPressed = true;
-            revealTimeout = setTimeout(() => {
-                revealWord();
-            }, 500);
-        }
+        if (wordRevealTimeout) return;
+        wordRevealTimeout = setTimeout(() => {
+            reveal();
+        }, 200);
     }
 
     function endReveal() {
-        isPressed = false;
-        if (revealTimeout) {
-            clearTimeout(revealTimeout);
+        if (wordRevealTimeout) {
+            clearTimeout(wordRevealTimeout);
+            wordRevealTimeout = null;
         }
     }
 
-    // Click to reveal (for quick reveal)
-    wordContainer.addEventListener('click', () => {
-        if (!gameState.wordRevealed) {
-            revealWord();
-        } else {
-            hideWord();
+    function toggleReveal() {
+        if (wordRevealTimeout) {
+            clearTimeout(wordRevealTimeout);
+            wordRevealTimeout = null;
         }
-    });
+        if (isWordRevealed) {
+            hide();
+        } else {
+            reveal();
+        }
+    }
+
+    function reveal() {
+        el.classList.add('revealed');
+        isWordRevealed = true;
+        wordRevealTimeout = null;
+    }
+
+    function hide() {
+        el.classList.remove('revealed');
+        isWordRevealed = false;
+    }
 }
 
-function revealWord() {
-    document.getElementById('word-hidden').querySelector('.blur-overlay').classList.add('hidden');
-    gameState.wordRevealed = true;
-}
-
-function hideWord() {
-    document.getElementById('word-hidden').querySelector('.blur-overlay').classList.remove('hidden');
-    gameState.wordRevealed = false;
-}
-
-function confirmWord() {
-    gameState.currentPlayerIndex++;
-
-    if (gameState.currentPlayerIndex >= gameState.players.length) {
-        // All players have seen their words
+function confirmAndPass() {
+    state.currentPlayer++;
+    if (state.currentPlayer >= state.players.length) {
         startDiscussion();
     } else {
         showScreen('pass-screen');
@@ -326,215 +245,192 @@ function confirmWord() {
     }
 }
 
-// ========== DISCUSSION PHASE ==========
+// Discussion
 function startDiscussion() {
-    document.getElementById('discussion-word-display').textContent = gameState.currentWord;
-    gameState.timeRemaining = gameState.discussionTime;
+    state.remaining = state.time;
+    state.votes = {};
+
+    document.getElementById('discussion-word').textContent = state.currentWord;
     updateTimerDisplay();
 
-    // Setup vote list
-    setupVoteList();
+    // Setup votes
+    const voteList = document.getElementById('vote-list');
+    voteList.innerHTML = '';
+    state.players.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'vote-item';
+        div.innerHTML = `
+            <span>${p}</span>
+            <span class="vote-count" id="vote-${p}">0</span>
+        `;
+        div.onclick = () => vote(p);
+        voteList.appendChild(div);
+        state.votes[p] = 0;
+    });
 
     showScreen('discussion-screen');
     startTimer();
 }
 
-function startTimer() {
-    gameState.timerInterval = setInterval(() => {
-        gameState.timeRemaining--;
-        updateTimerDisplay();
+function vote(player) {
+    state.votes[player]++;
+    document.getElementById(`vote-${player}`).textContent = state.votes[player];
+}
 
-        if (gameState.timeRemaining <= 0) {
-            clearInterval(gameState.timerInterval);
-            showToast("¡Tiempo terminado!", "warning");
+function startTimer() {
+    if (state.timer) clearInterval(state.timer);
+    state.timer = setInterval(() => {
+        state.remaining--;
+        updateTimerDisplay();
+        if (state.remaining <= 0) {
+            clearInterval(state.timer);
+            state.timer = null;
         }
     }, 1000);
 }
 
 function updateTimerDisplay() {
     const timerEl = document.getElementById('timer');
-    const timerCircle = document.querySelector('.timer-circle');
-    timerEl.textContent = gameState.timeRemaining;
+    const timerCircle = document.querySelector('.timer');
+    timerEl.textContent = state.remaining;
 
     timerCircle.classList.remove('warning', 'danger');
-    if (gameState.timeRemaining <= 10) {
+    if (state.remaining <= 10) {
         timerCircle.classList.add('danger');
-    } else if (gameState.timeRemaining <= 30) {
+    } else if (state.remaining <= 30) {
         timerCircle.classList.add('warning');
     }
 }
 
 function toggleTimer() {
     const btn = document.getElementById('timer-toggle');
-    if (gameState.timerInterval) {
-        clearInterval(gameState.timerInterval);
-        gameState.timerInterval = null;
-        btn.textContent = '▶️ Reanudar';
+    if (state.timer) {
+        clearInterval(state.timer);
+        state.timer = null;
+        btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>`;
     } else {
         startTimer();
-        btn.textContent = '⏸️ Pausar';
+        btn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
     }
 }
 
 function addTime(seconds) {
-    gameState.timeRemaining += seconds;
+    state.remaining += seconds;
     updateTimerDisplay();
 }
 
 function skipTimer() {
-    if (gameState.timerInterval) {
-        clearInterval(gameState.timerInterval);
-        gameState.timerInterval = null;
+    if (state.timer) {
+        clearInterval(state.timer);
+        state.timer = null;
     }
-    showToast("Timer pausado", "info");
 }
 
-function setupVoteList() {
-    const voteList = document.getElementById('vote-list');
-    voteList.innerHTML = '';
-
-    gameState.players.forEach(player => {
-        const voteItem = document.createElement('div');
-        voteItem.className = 'vote-item';
-        voteItem.innerHTML = `
-            <span>${player}</span>
-            <span class="vote-count" id="vote-count-${player}">0</span>
-        `;
-        voteItem.onclick = () => addVote(player);
-        voteList.appendChild(voteItem);
-    });
-}
-
-function addVote(player) {
-    if (!gameState.votes[player]) {
-        gameState.votes[player] = 0;
-    }
-    gameState.votes[player]++;
-    document.getElementById(`vote-count-${player}`).textContent = gameState.votes[player];
-
-    const voteItem = document.querySelector(`.vote-item:has(#vote-count-${player})`);
-    voteItem.classList.add('selected');
-    setTimeout(() => voteItem.classList.remove('selected'), 300);
-}
-
-// ========== RESULTS ==========
+// Results
 function showResults() {
-    if (gameState.timerInterval) {
-        clearInterval(gameState.timerInterval);
+    if (state.timer) {
+        clearInterval(state.timer);
+        state.timer = null;
     }
 
-    // Find most voted
+    // Find accused
     let maxVotes = 0;
-    let accused = [];
-    for (const [player, votes] of Object.entries(gameState.votes)) {
+    const accused = [];
+    for (const [player, votes] of Object.entries(state.votes)) {
         if (votes > maxVotes) {
             maxVotes = votes;
-            accused = [player];
+            accused.length = 0;
+            accused.push(player);
         } else if (votes === maxVotes && votes > 0) {
             accused.push(player);
         }
     }
 
-    // Show results
-    document.getElementById('result-word').textContent = gameState.currentWord;
+    // Show word
+    document.getElementById('result-word').textContent = state.currentWord;
 
+    // Show impostors
     const impostorsList = document.getElementById('impostors-list');
     impostorsList.innerHTML = '';
-    gameState.impostors.forEach(imp => {
-        const tag = document.createElement('div');
+    state.impostorIndices.forEach(i => {
+        const tag = document.createElement('span');
         tag.className = 'impostor-tag';
-        tag.textContent = `🎭 ${imp}`;
+        tag.textContent = state.players[i];
         impostorsList.appendChild(tag);
     });
 
     // Determine winner
-    const winnersDiv = document.getElementById('winners-announcement');
-    const titleEl = document.getElementById('result-title');
+    const winnerText = document.getElementById('winner-text');
+    const title = document.getElementById('result-title');
 
     if (accused.length === 0) {
-        winnersDiv.innerHTML = '<p style="color: var(--warning);">Nadie votó... Los impostores ganan 😈</p>';
-        titleEl.textContent = '🎭 ¡Ganan los Impostores!';
+        winnerText.textContent = '¡Los impostores ganan!';
+        winnerText.className = 'winner-text lose';
+        title.textContent = '¡Victoria Impostor!';
     } else {
-        const correctlyIdentified = accused.some(a => gameState.impostors.includes(a));
-        const allImpostorsFound = gameState.impostors.every(i => accused.includes(i));
-        const onlyImpostorsAccused = accused.every(a => gameState.impostors.includes(a));
+        const correctlyIdentified = accused.some(a => {
+            const idx = state.players.indexOf(a);
+            return state.impostorIndices.includes(idx);
+        });
 
-        if (allImpostorsFound && onlyImpostorsAccused && gameState.impostors.length === accused.length) {
-            winnersDiv.innerHTML = '<p style="color: var(--success);">🎉 ¡Los jugadores descubrieron a todos los impostores!</p>';
-            titleEl.textContent = '🏆 ¡Victoria de los Jugadores!';
+        const onlyImpostors = accused.every(a => {
+            const idx = state.players.indexOf(a);
+            return state.impostorIndices.includes(idx);
+        });
+
+        if (correctlyIdentified && onlyImpostors && accused.length === state.impostorIndices.length) {
+            winnerText.textContent = '¡Los jugadores descubren a todos los impostores!';
+            winnerText.className = 'winner-text win';
+            title.textContent = '¡Victoria Jugadores!';
         } else if (correctlyIdentified) {
-            winnersDiv.innerHTML = '<p style="color: var(--warning);">Descubrieron al menos un impostor... pero no todos 🤔</p>';
-            titleEl.textContent = '😅 Victoria Parcial';
+            winnerText.textContent = 'Descubrieron al menos un impostor';
+            winnerText.className = 'winner-text';
+            title.textContent = 'Parcial';
         } else {
-            winnersDiv.innerHTML = '<p style="color: var(--accent);">Acusaron a los equivocados... ¡Los impostores ganan! 😈</p>';
-            titleEl.textContent = '🎭 ¡Ganan los Impostores!';
+            winnerText.textContent = '¡Acusaron a inocentes! Los impostores ganan';
+            winnerText.className = 'winner-text lose';
+            title.textContent = '¡Victoria Impostor!';
         }
     }
 
     showScreen('results-screen');
 }
 
-// ========== RESET ==========
+// Reset
 function resetGame() {
-    gameState.players = [];
-    gameState.currentPlayerIndex = 0;
-    gameState.currentWord = '';
-    gameState.impostors = [];
-    gameState.votes = {};
-    gameState.wordRevealed = false;
+    state.players = [];
+    state.currentPlayer = 0;
+    state.currentWord = '';
+    state.impostorIndices = [];
+    state.votes = {};
+    state.impostors = 1;
 
-    if (gameState.timerInterval) {
-        clearInterval(gameState.timerInterval);
-        gameState.timerInterval = null;
+    if (state.timer) {
+        clearInterval(state.timer);
+        state.timer = null;
     }
 
-    // Reset UI
     document.getElementById('impostor-count').textContent = '1';
     document.getElementById('word-category').value = 'random';
-    document.getElementById('discussion-time').value = '60';
 
-    // Reset players
-    const playersList = document.getElementById('players-list');
-    playersList.innerHTML = '';
-    initPlayers();
+    const list = document.getElementById('players-list');
+    list.innerHTML = '';
+    for (let i = 1; i <= 3; i++) {
+        addPlayerInput(`Jugador ${i}`);
+    }
+    setTime(60);
 
     showScreen('setup-screen');
 }
 
-// ========== UTILITIES ==========
-function showToast(message, type = 'info') {
-    const toast = document.createElement('div');
-    toast.textContent = message;
-    toast.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 12px 24px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 600;
-        z-index: 1000;
-        animation: fadeIn 0.3s ease;
-    `;
-
-    const colors = {
-        info: 'var(--primary)',
-        success: 'var(--success)',
-        warning: 'var(--warning)',
-        error: 'var(--danger)'
-    };
-
-    toast.style.background = colors[type] || colors.info;
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.animation = 'fadeIn 0.3s ease reverse';
-        setTimeout(() => toast.remove(), 300);
-    }, 2500);
+// Toast
+function toast(msg) {
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2000);
 }
 
-// ========== INITIALIZATION ==========
-document.addEventListener('DOMContentLoaded', () => {
-    initPlayers();
-});
+// Init
+document.addEventListener('DOMContentLoaded', init);
